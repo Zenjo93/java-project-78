@@ -6,7 +6,7 @@ import java.util.List;
 public class StringSchema {
     private boolean isRequired; // null или пустая строка
     private int minLength;
-    private List<String> containedStrings = new ArrayList<>();
+    private final List<String> containedStrings = new ArrayList<>();
 
     public StringSchema required() {
         this.isRequired = true;
@@ -23,27 +23,21 @@ public class StringSchema {
         return this;
     }
 
-    public boolean isValid(String string) {
-        boolean isValid = true;
-
-        if (string == null || string.length() == 0) {
+    public boolean isValid(String value) {
+        if (value == null || value.length() == 0) {
             return !isRequired;
         }
-
-        if (minLength > 0) {
-            isValid = string.length() >= minLength;
+        if (minLength > 0 && value.length() < minLength) {
+            return false;
         }
-
         if (containedStrings.size() != 0) {
             for (String containedString: containedStrings) {
-                isValid = string.contains(containedString);
-                if (!isValid) {
-                    break;
+                if (!value.contains(containedString)) {
+                    return false;
                 }
             }
         }
-
-        return isValid;
+        return true;
     }
 
 }
