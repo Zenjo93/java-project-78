@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class StringSchema extends BaseSchema {
-    private boolean isRequired; // null или пустая строка
+    private boolean isRequired;
     private int minLength;
     private final List<String> containedStrings = new ArrayList<>();
 

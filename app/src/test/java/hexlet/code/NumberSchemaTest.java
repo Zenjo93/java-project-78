@@ -50,6 +50,4 @@ public final class NumberSchemaTest {
         assertFalse(schema.positive().range(-15, 10).isValid(-5));
     }
 
-
-
 }
