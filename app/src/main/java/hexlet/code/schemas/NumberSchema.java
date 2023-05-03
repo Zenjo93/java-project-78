@@ -31,10 +31,10 @@ public class NumberSchema extends BaseSchema {
         if (value == null) {
             return !isRequired;
         }
-        if (positive && ((int)value <= 0)) {
+        if (positive && ((int) value <= 0)) {
             return false;
         }
-        if (setRange && ((int)value < range[0] || (int)value > range[1])) {
+        if (setRange && ((int) value < range[0] || (int) value > range[1])) {
             return false;
         }
         return true;
