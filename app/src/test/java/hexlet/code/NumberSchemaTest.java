@@ -25,6 +25,12 @@ public class NumberSchemaTest {
     }
 
     @Test
+    @DisplayName("String input")
+    public void testIsValidStringInput() {
+        assertFalse(schema.isValid("5"));
+    }
+
+    @Test
     @DisplayName("Positive")
     public void testPositive() {
         assertTrue(schema.positive().isValid(null));

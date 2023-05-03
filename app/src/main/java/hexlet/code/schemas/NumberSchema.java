@@ -25,15 +25,16 @@ public class NumberSchema extends BaseSchema {
 
     @Override
     public boolean isValid(Object value) {
-        Integer intValue = (Integer) value;
-
+        if (value instanceof String) {
+            return false;
+        }
         if (value == null) {
             return !isRequired;
         }
-        if (positive && intValue <= 0) {
+        if (positive && ((int)value <= 0)) {
             return false;
         }
-        if (setRange && (intValue < range[0] || intValue > range[1])) {
+        if (setRange && ((int)value < range[0] || (int)value > range[1])) {
             return false;
         }
         return true;
