@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class StringSchemaTest {
     private Validator v = new Validator();;
-    StringSchema schema;
+    private StringSchema schema;
 
     @Test
     @DisplayName("Required (empty or null string)")
