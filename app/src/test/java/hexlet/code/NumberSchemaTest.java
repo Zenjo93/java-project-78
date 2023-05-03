@@ -8,12 +8,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class NumberSchemaTest {
-    Validator v;
+    Validator v = new Validator();;
     NumberSchema schema;
 
     @BeforeEach
     public void init(){
-        v = new Validator();
         schema = v.number();
     }
 
@@ -41,7 +40,6 @@ public class NumberSchemaTest {
         assertFalse(schema.isValid(4));
         assertFalse(schema.isValid(11));
         assertFalse(schema.isValid(-10));
-
         assertFalse(schema.positive().range(-15, 10).isValid(-5));
     }
 
