@@ -12,7 +12,7 @@ public class NumberSchemaTest {
     NumberSchema schema;
 
     @BeforeEach
-    public void init(){
+    public void init() {
         schema = v.number();
     }
 

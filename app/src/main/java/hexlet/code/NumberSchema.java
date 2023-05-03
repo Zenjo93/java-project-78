@@ -23,15 +23,17 @@ public class NumberSchema extends BaseSchema {
         return this;
     }
 
+    @Override
+    public boolean isValid(Object value) {
+        Integer intValue = (Integer) value;
 
-    public boolean isValid(Integer value) {
         if (value == null) {
             return !isRequired;
         }
-        if (positive && value <= 0) {
+        if (positive && intValue <= 0) {
             return false;
         }
-        if (setRange && (value < range[0] || value > range[1])) {
+        if (setRange && (intValue < range[0] || intValue > range[1])) {
             return false;
         }
         return true;

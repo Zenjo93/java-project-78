@@ -3,7 +3,7 @@ package hexlet.code;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringSchema {
+public class StringSchema extends BaseSchema {
     private boolean isRequired; // null или пустая строка
     private int minLength;
     private final List<String> containedStrings = new ArrayList<>();
@@ -23,16 +23,19 @@ public class StringSchema {
         return this;
     }
 
-    public boolean isValid(String value) {
-        if (value == null || value.length() == 0) {
+    @Override
+    public boolean isValid(Object value) {
+        String stringValue = (String) value;
+
+        if (value == null || stringValue.length() == 0) {
             return !isRequired;
         }
-        if (minLength > 0 && value.length() < minLength) {
+        if (minLength > 0 && stringValue.length() < minLength) {
             return false;
         }
         if (containedStrings.size() != 0) {
             for (String containedString: containedStrings) {
-                if (!value.contains(containedString)) {
+                if (!stringValue.contains(containedString)) {
                     return false;
                 }
             }
