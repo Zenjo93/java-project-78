@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class MapSchema {
+public final class MapSchema {
     private boolean isRequired; // null как значение
     private int size;
     private boolean setSize;

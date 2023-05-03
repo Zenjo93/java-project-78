@@ -8,12 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class StringSchemaTest {
+    private Validator v = new Validator();;
+    StringSchema schema;
 
     @Test
     @DisplayName("Required (empty or null string)")
     public void testRequired() {
-        Validator v = new Validator();
-        StringSchema schema = v.string();
+        schema = v.string();
         assertTrue(schema.isValid(""));
         assertTrue(schema.isValid(null));
         assertFalse(schema.required().isValid(""));
@@ -23,8 +24,7 @@ public class StringSchemaTest {
     @Test
     @DisplayName("Min length")
     public void testMinLength() {
-        Validator v = new Validator();
-        StringSchema schema = v.string().minLength(8);
+        schema = v.string().minLength(8);
         assertTrue(schema.isValid("Some long string"));
         assertFalse(schema.isValid("Short"));
         assertTrue(schema.minLength(0).isValid("Short"));
@@ -33,8 +33,7 @@ public class StringSchemaTest {
     @Test
     @DisplayName("Contains")
     public void testContains() {
-        Validator v = new Validator();
-        StringSchema schema = v.string();
+        schema = v.string();
         assertTrue(schema.isValid("Hexlet"));
         assertTrue(schema.isValid("what does the fox say"));
         assertTrue(schema.contains("wh").isValid("what does the fox say"));

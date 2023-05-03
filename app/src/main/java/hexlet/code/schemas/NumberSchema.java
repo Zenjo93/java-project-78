@@ -1,6 +1,6 @@
 package hexlet.code.schemas;
 
-public class NumberSchema extends BaseSchema {
+public final class NumberSchema extends BaseSchema {
     private boolean isRequired; // null как значение
     private boolean positive;
     private boolean setRange;
