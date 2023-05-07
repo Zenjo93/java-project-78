@@ -4,56 +4,41 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public final class MapSchema {
-    private boolean isRequired; // null как значение
-    private int size;
-    private boolean setSize;
+public final class MapSchema extends BaseSchema {
     private final Map<String, BaseSchema> schemas = new HashMap<>();
-    private boolean setSchemas;
 
-    // TODO: Возврат BaseSchema?
     public MapSchema required() {
-        this.isRequired = true;
+        super.addCheck("required", value -> value != null);
         return this;
     }
 
-    public MapSchema sizeof(int s) {
-        this.setSize = true;
-        this.size = s;
+    public MapSchema sizeof(int size) {
+        super.addCheck("sizeof", value -> checkSize((Map) value, size));
         return this;
     }
 
-    public void shape(Map<String, BaseSchema> s) {
-        this.schemas.putAll(s);
-        this.setSchemas = true;
-        /*
-        key: schema (v.string.required())
-
-        // Проверка схемы по ключу
-        schema.isValid(key)
-         */
+    private boolean checkSize(Map map, int size) {
+        return map.size() == size;
     }
 
-    public boolean isValid(Map<?, ?> map) {
-        if (map == null) {
-            return !isRequired;
-        }
-        if (setSize && map.size() != size) {
-            return false;
-        }
-        if (setSchemas) {
-            Set<String> schemasKey = this.schemas.keySet();
-            for (String key: schemasKey) {
-                Object value = map.get(key);
-                BaseSchema schema = schemas.get(key);
-                if (!schema.isValid(value)) {
-                    return false;
-                }
+    public void shape(Map<String, BaseSchema> schema) {
+        this.schemas.putAll(schema);
+
+        super.addCheck("shape", value -> checkMap(value));
+
+    }
+
+    private boolean checkMap(Object valMap) {
+        Map map = (Map) valMap;
+
+        Set<String> schemasKey = this.schemas.keySet();
+        for (String key: schemasKey) {
+            Object value = map.get(key);
+            BaseSchema schema = schemas.get(key);
+            if (!schema.isValid(value)) {
+                return false;
             }
         }
-
         return true;
     }
-
-
 }

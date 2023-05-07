@@ -1,43 +1,23 @@
 package hexlet.code.schemas;
 
 public final class NumberSchema extends BaseSchema {
-    private boolean isRequired;
-    private boolean positive;
-    private boolean setRange;
-    private final int[] range = new int[2];
+
+    public NumberSchema() {
+        super.addCheck("isNumber", value -> value instanceof Integer);
+    }
 
     public NumberSchema required() {
-        this.isRequired = true;
+        super.addCheck("required", value -> value != null);
         return this;
     }
 
     public NumberSchema positive() {
-        this.positive = true;
+        super.addCheck("positive", value -> ((int) value) > 0);
         return this;
     }
 
     public NumberSchema range(int from, int to) {
-        this.setRange = true;
-        this.range[0] = from;
-        this.range[1] = to;
+        super.addCheck("range", value -> ((Integer) value >= from && (Integer) value <= to));
         return this;
     }
-
-    @Override
-    public boolean isValid(Object value) {
-        if (value instanceof String) {
-            return false;
-        }
-        if (value == null) {
-            return !isRequired;
-        }
-        if (positive && ((int) value <= 0)) {
-            return false;
-        }
-        if (setRange && ((int) value < range[0] || (int) value > range[1])) {
-            return false;
-        }
-        return true;
-    }
-
 }
