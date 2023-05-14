@@ -5,10 +5,13 @@ import java.util.Map;
 import java.util.Set;
 
 public final class MapSchema extends BaseSchema {
-    private final Map<String, BaseSchema> schemas = new HashMap<>();
+
+    public MapSchema() {
+        super.addCheck("required", value -> value != null);
+    }
 
     public MapSchema required() {
-        super.addCheck("required", value -> value != null);
+        super.required = true;
         return this;
     }
 
@@ -22,20 +25,18 @@ public final class MapSchema extends BaseSchema {
     }
 
     public void shape(Map<String, BaseSchema> schema) {
-        this.schemas.putAll(schema);
-
-        super.addCheck("shape", value -> checkMap(value));
-
+        super.addCheck("shape", value -> checkMap(schema, value));
     }
 
-    private boolean checkMap(Object valMap) {
+    private boolean checkMap(Map<String, BaseSchema> schema, Object valMap) {
         Map map = (Map) valMap;
+        Map<String, BaseSchema> schemas = new HashMap<>(schema);
 
-        Set<String> schemasKey = this.schemas.keySet();
+        Set<String> schemasKey = schemas.keySet();
         for (String key: schemasKey) {
             Object value = map.get(key);
-            BaseSchema schema = schemas.get(key);
-            if (!schema.isValid(value)) {
+            BaseSchema baseSchema = schemas.get(key);
+            if (!baseSchema.isValid(value)) {
                 return false;
             }
         }

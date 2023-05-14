@@ -3,11 +3,11 @@ package hexlet.code.schemas;
 public final class NumberSchema extends BaseSchema {
 
     public NumberSchema() {
-        super.addCheck("isNumber", value -> value instanceof Integer);
+        addCheck("required", value -> value instanceof Integer);
     }
 
     public NumberSchema required() {
-        super.addCheck("required", value -> value != null);
+        super.required = true;
         return this;
     }
 
@@ -21,3 +21,4 @@ public final class NumberSchema extends BaseSchema {
         return this;
     }
 }
+
